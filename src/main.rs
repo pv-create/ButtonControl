@@ -47,12 +47,15 @@ fn main() -> Result<(), Box<dyn Error>> {
                 println!("Лазер включен");
                 // Добавляем задержку для устранения дребезга контактов
                 thread::sleep(Duration::from_millis(1000));
+
+                pin.set_low();
             },
             Some(Level::High) => (),
             None => (),
         }
     }
 
+    pin.set_low();
     println!("Программа завершена");
     Ok(())
 }
