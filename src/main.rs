@@ -9,14 +9,14 @@ const GPIO_BUTTON: u8 = 17;
 
 const GPIO_PIN_LAZER: u8 = 18;
 
-fn blink(pin: &mut rppal::gpio::OutputPin, count: u32, duration: Duration) {
-    for _ in 0..count {
-        pin.set_high();
-        thread::sleep(duration);
-        pin.set_low();
-        thread::sleep(duration);
-    }
-}
+// fn blink(pin: &mut rppal::gpio::OutputPin, count: u32, duration: Duration) {
+//     for _ in 0..count {
+//         pin.set_high();
+//         thread::sleep(duration);
+//         pin.set_low();
+//         thread::sleep(duration);
+//     }
+// }
 
 fn main() -> Result<(), Box<dyn Error>> {
     // Флаг для корректного завершения программы
@@ -43,9 +43,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         match button.poll_interrupt(true, Some(Duration::from_millis(100)))? {
             Some(Level::Low) => {
                 println!("Кнопка нажата!");
-                blink(&mut pin, 5, Duration::from_millis(100));
+                pin.set_high();
+                println!("Лазер включен");
                 // Добавляем задержку для устранения дребезга контактов
-                thread::sleep(Duration::from_millis(300));
+                thread::sleep(Duration::from_millis(1000));
             },
             Some(Level::High) => (),
             None => (),
